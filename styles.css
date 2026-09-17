@@ -24,6 +24,11 @@ h3 { margin:24px 0 8px; }
 .category { background:#f5f2ea; border-radius:10px; padding:11px; }
 .category strong { display:block; margin-bottom:5px; }
 .clues { padding-left:24px; }
+.specimen-grid { display:grid; gap:18px; }
+.specimen-card { margin:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:white; }
+.specimen-image { display:block; width:100%; height:auto; background:white; }
+.specimen-caption { padding:11px 13px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); }
+.specimen-error { margin:0; padding:14px; color:var(--warn); font-weight:700; }
 .answer-table { width:100%; border-collapse:collapse; font-size:14px; }
 .answer-table th,.answer-table td { border-bottom:1px solid var(--line); padding:8px; text-align:left; }
 .hint-actions { display:flex; gap:10px; flex-wrap:wrap; margin:18px 0; }

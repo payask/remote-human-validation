@@ -72,6 +72,38 @@ function element(tag, className = "", text = "") {
   return node;
 }
 
+function safeSpecimenUrl(path) {
+  if (typeof path !== "string" || !/^assets\/[A-Za-z0-9._/-]+\.png$/u.test(path) || path.split("/").includes("..")) return null;
+  const url = new URL(path, document.baseURI);
+  return url.origin === location.origin ? url : null;
+}
+
+function renderSpecimens(container, specimens = []) {
+  if (!specimens.length) return;
+  const section = element("section", "section specimen-section");
+  section.append(element("h3", "", "Static review specimens"));
+  const grid = element("div", "specimen-grid");
+  specimens.forEach((specimen) => {
+    const figure = element("figure", "specimen-card");
+    const url = safeSpecimenUrl(specimen.image_path);
+    if (!url || typeof specimen.alt_text !== "string" || typeof specimen.caption !== "string") {
+      figure.append(element("p", "specimen-error", "Specimen unavailable: invalid static-asset descriptor."));
+    } else {
+      const img = element("img", "specimen-image");
+      img.src = url.href;
+      img.alt = specimen.alt_text;
+      img.loading = "eager";
+      img.decoding = "async";
+      img.dataset.specimenId = specimen.specimen_id;
+      img.dataset.expectedSha256 = specimen.sha256;
+      figure.append(img, element("figcaption", "specimen-caption", specimen.caption));
+    }
+    grid.append(figure);
+  });
+  section.append(grid);
+  container.append(section);
+}
+
 function renderContent(container, task) {
   const content = task.content;
   container.append(element("p", "safety", content.instructions || ""));
@@ -100,6 +132,7 @@ function renderContent(container, task) {
     section.append(element("p", "", item.body));
     container.append(section);
   }
+  renderSpecimens(container, content.specimens || []);
 }
 
 function renderPrivileged(container, task) {
