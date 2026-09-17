@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    (() => {
+      const fragment = new URLSearchParams(location.hash.slice(1));
+      window.__remoteHvAssignmentToken = fragment.get("assignment") || "";
+      window.__remoteHvOwnerToken = fragment.get("owner") || "";
+    })();
+  </script>
+  <meta name="description" content="Private remote product validation session">
+  <title>Remote product validation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="mark" aria-hidden="true">✓</div>
+      <div><p class="eyebrow">PRIVATE PRODUCT TEST</p><p id="brand" class="brand">Remote validation</p></div>
+      <span id="classification" class="classification">Loading…</span>
+    </header>
+
+    <section id="loading" class="panel"><h1>Opening your assigned test…</h1><p>Please wait.</p></section>
+    <section id="error" class="panel" hidden><h1>This link could not be opened.</h1><p id="error-message">Ask the study owner for the link assigned to you.</p></section>
+
+    <section id="assignment" hidden>
+      <div class="panel intro">
+        <p class="eyebrow" id="role-label"></p>
+        <h1 id="study-title"></h1>
+        <p>This is a product test, not an exam. Complete only the tasks assigned in this link. Your draft stays in this browser until the receiver confirms it was received.</p>
+      </div>
+      <div class="workspace">
+        <nav id="task-list" class="task-list" aria-label="Assigned tasks"></nav>
+        <article id="task" class="panel"></article>
+      </div>
+    </section>
+
+    <section id="owner" class="panel" hidden>
+      <p class="eyebrow">OWNER RETRIEVAL</p>
+      <h1 id="owner-title">Raw result retrieval</h1>
+      <div class="owner-controls">
+        <label>Classification <select id="owner-classification"><option>REAL</option><option>TEST_FIXTURE</option></select></label>
+        <button id="owner-refresh" class="primary" type="button">Refresh raw results</button>
+        <button id="owner-download" class="secondary" type="button" disabled>Download JSON</button>
+      </div>
+      <p id="owner-status" role="status"></p>
+      <pre id="owner-results"></pre>
+      <p class="safety">Raw collection only. This page does not compute PASS, REWORK, STOP, or any commercial decision.</p>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
